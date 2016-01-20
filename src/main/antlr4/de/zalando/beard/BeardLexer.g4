@@ -30,6 +30,8 @@ mode INSIDE_INTERPOLATION;
 
     CONTENT_FOR : 'contentFor';
 
+    PIPE : [\|];
+
     IF : 'if';
     ELSE: 'else';
 
