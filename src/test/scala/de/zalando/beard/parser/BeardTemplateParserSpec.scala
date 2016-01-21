@@ -167,6 +167,16 @@ class BeardTemplateParserSpec extends FunSpec with Matchers {
     }
   }
 
+  describe("filters") {
+    it("should recognize a single filter") {
+      BeardTemplateParser("{{ hello | foo}}") should
+      be(BeardTemplate(
+           Seq(
+             IdInterpolation(CompoundIdentifier("hello"), Seq(Filter(Identifier("foo"), Seq.empty)))
+           )))
+    }
+  }
+
   describe("when parsing a string that contains a comment") {
     it("should return an empty BeardTemplate for an inline comment") {
       BeardTemplateParser("{{# This is a comment #}}") should be(BeardTemplate(List.empty))

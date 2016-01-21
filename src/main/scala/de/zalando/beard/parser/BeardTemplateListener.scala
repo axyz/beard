@@ -82,11 +82,17 @@ class BeardTemplateListener extends BeardParserBaseListener {
       AttrInterpolation(ctx.identifier().result, attributes)
   }
 
-  override def exitIdInterpolation(ctx: IdInterpolationContext) =
-    ctx.result = IdInterpolation(ctx.compoundIdentifier().result)
+  override def exitIdInterpolation(ctx: IdInterpolationContext) = {
+    // a.result should already be a Filter, why do I have to create it from scratch ???
+    val filters = ctx.filter().map(a => Filter(a.identifier().result)).toList
+    ctx.result = IdInterpolation(ctx.compoundIdentifier().result, filters)
+  }
 
   override def exitInterpolation(ctx: InterpolationContext) = {
-    ctx.result = List(Option(ctx.attrInterpolation()).toSeq.map(_.result), Option(ctx.idInterpolation()).toSeq.map(_.result)).flatten.head
+    ctx.result = List(
+      Option(ctx.attrInterpolation()).toSeq.map(_.result),
+      Option(ctx.idInterpolation()).toSeq.map(_.result)
+    ).flatten.head
   }
 
   override def exitStatement(ctx: StatementContext) = {

@@ -123,7 +123,7 @@ locals [Interpolation result]
 // {{address.street.number}}
 idInterpolation
 locals [IdInterpolation result]
-    : LL compoundIdentifier RR
+    : LL compoundIdentifier filter* RR
     ;
 
 // {{address street="Ferdinand" number="1" name=the.name}}
@@ -153,6 +153,11 @@ locals [AttributeWithIdentifier result]
 attrValue
 locals [String result]
     : START_ATTR_VALUE ATTR_TEXT END_ATTR_VALUE
+    ;
+
+filter
+locals [Filter result]
+    : PIPE identifier
     ;
 
 compoundIdentifier

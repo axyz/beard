@@ -50,7 +50,7 @@ class BeardTemplateRenderer(templateCompiler: TemplateCompiler) {
                                  yieldedStatement: BeardTemplate): Unit = statement match {
 
     case Text(text) => onNext(renderResult, text)
-    case IdInterpolation(identifier) => {
+    case IdInterpolation(identifier, filters) => {
       val id = ContextResolver.resolve(identifier, context) match {
         case Some(value) => stringRepresentation(value)
         case _ => throw new IllegalStateException(s"The identifier ${identifier} was not resolved")

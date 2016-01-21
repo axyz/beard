@@ -11,7 +11,7 @@ case class AttrInterpolation(identifier: Identifier, attributes: Seq[Attribute] 
   def attributeMap = attributes.map(attr => attr.key -> attr.stringValue).toMap
 }
 
-case class IdInterpolation(identifier: CompoundIdentifier) extends Interpolation
+case class IdInterpolation(identifier: CompoundIdentifier, filters: Seq[Filter] = Seq.empty) extends Interpolation
 
 case class YieldStatement() extends Statement
 
@@ -41,6 +41,11 @@ case class AttributeWithValue(key: String, value: String) extends Attribute {
 case class AttributeWithIdentifier(key: String, id: CompoundIdentifier) extends Attribute {
   def identifier = Some(id)
   def stringValue = None
+}
+
+case class Filter(id: Identifier, args: Seq[Any] = Seq.empty) {
+  def identifier = Some(id)
+  def arguments = Some(args)
 }
 
 trait HasText {
