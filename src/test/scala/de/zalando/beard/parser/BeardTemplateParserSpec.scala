@@ -168,13 +168,63 @@ class BeardTemplateParserSpec extends FunSpec with Matchers {
   }
 
   describe("filters") {
-    it("should recognize a single filter") {
-      BeardTemplateParser("{{ hello | foo}}") should
+    it("should recognize a single filter without arguments") {
+      BeardTemplateParser("{{ hello | foo }}") should
       be(BeardTemplate(
            Seq(
-             IdInterpolation(CompoundIdentifier("hello"), Seq(Filter(Identifier("foo"), Seq.empty)))
+             IdInterpolation(CompoundIdentifier("hello"), Seq(Filter(Identifier("foo"))))
            )))
     }
+
+    it("should recognize multiple filters without arguments") {
+      BeardTemplateParser("{{ hello | foo | bar }}") should
+      be(BeardTemplate(
+           Seq(
+             IdInterpolation(CompoundIdentifier("hello"), Seq(
+                               Filter(Identifier("foo")),
+                               Filter(Identifier("bar"))
+                             ))
+           )))
+    }
+
+    // it("should recognize a single filter with 1 argument") {
+    //   BeardTemplateParser("{{ hello | foo(\"bar\") }}") should
+    //   be(BeardTemplate(
+    //        Seq(
+    //          IdInterpolation(CompoundIdentifier("hello"), Seq(Filter(Identifier("foo"), Seq("bar"))))
+    //        )))
+    // }
+
+    // it("should recognize multiple filters with 1 argument each") {
+    //   BeardTemplateParser("{{ hello | foo(baz) | bar(qux) }}") should
+    //   be(BeardTemplate(
+    //        Seq(
+    //          IdInterpolation(CompoundIdentifier("hello"), Seq(
+    //                            Filter(Identifier("foo"), Seq("baz")),
+    //                            Filter(Identifier("bar"), Seq("qux"))
+    //                          ))
+    //        )))
+    // }
+
+    // it("should recognize a single filter with multiple arguments") {
+    //   BeardTemplateParser("{{ hello | foo(bar, baz) }}") should
+    //   be(BeardTemplate(
+    //        Seq(
+    //          IdInterpolation(CompoundIdentifier("hello"), Seq(Filter(Identifier("foo"), Seq("bar", "baz"))))
+    //        )))
+    // }
+
+    // it("should recognize multiple filters with multiple arguments each") {
+    //   BeardTemplateParser("{{ hello | foo(baz, baaz) | bar(qux, quux) }}") should
+    //   be(BeardTemplate(
+    //        Seq(
+    //          IdInterpolation(CompoundIdentifier("hello"), Seq(
+    //                            Filter(Identifier("foo"), Seq("baz", "baaz")),
+    //                            Filter(Identifier("bar"), Seq("qux", "quux"))
+    //                          ))
+    //        )))
+    // }
+
   }
 
   describe("when parsing a string that contains a comment") {

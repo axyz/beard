@@ -43,9 +43,8 @@ case class AttributeWithIdentifier(key: String, id: CompoundIdentifier) extends 
   def stringValue = None
 }
 
-case class Filter(id: Identifier, args: Seq[Any] = Seq.empty) {
-  def identifier = Some(id)
-  def arguments = Some(args)
+case class Filter(id: Identifier) {
+  def identifier = id
 }
 
 trait HasText {
